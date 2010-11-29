@@ -12,7 +12,11 @@ $plugin_info = array(
 );
 
 /**
+ * WB Explode
  * 
+ * @package WB Category Select
+ * @author Wes Baker <wes@wesbaker.com>
+ * @license http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 class Wb_explode {
 	var $return_data;
