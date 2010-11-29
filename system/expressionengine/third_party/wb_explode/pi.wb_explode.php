@@ -12,11 +12,7 @@ $plugin_info = array(
 );
 
 /**
- * WB Explode
  * 
- * @package WB Category Select
- * @author Wes Baker <wes@wesbaker.com>
- * @license http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 class Wb_explode {
 	var $return_data;
@@ -33,33 +29,40 @@ class Wb_explode {
 		if ($this->EE->TMPL->fetch_param('string'))
 		{
 			$string = $this->EE->TMPL->fetch_param('string');
+			$items = explode('|', $string);
+		} else {
+			$this->return_data = $tagdata;
+			exit;
 		}
-		
-		// Looking for first, last, odd or even
-		if ($this->EE->TMPL->fetch_param('value')) {
-			$value = $this->EE->TMPL->fetch_param('value');
-		}
-		
-		$items = explode('|', $string);
 		
 		if ($this->EE->TMPL->fetch_param('offset')) {
 			$offset = $this->EE->TMPL->fetch_param('offset');
 			$items = array_slice($items, $offset);
 		}
 		
-		switch ($value) {
-			case 'first':
-				$items = array_shift($items);
-				break;
-			case 'last':
-				$items = array_pop($items);
-				break;
-			case 'odd':
-				$items = $this->_filter_array($items, 'odd');
-				break;
-			case 'even':
-				$items = $this->_filter_array($items, 'even');
-				break;
+		// Looking for first, last, odd or even
+		if ($this->EE->TMPL->fetch_param('value')) {
+			$value = $this->EE->TMPL->fetch_param('value');
+			
+			switch ($value) {
+				case 'first':
+					$items = array_shift($items);
+					break;
+				case 'last':
+					$items = array_pop($items);
+					break;
+				case 'odd':
+					$items = $this->_filter_array($items, 'odd');
+					break;
+				case 'even':
+					$items = $this->_filter_array($items, 'even');
+					break;
+			}
+		}
+		
+		if ($this->EE->TMPL->fetch_param('limit')){
+			$limit = $this->EE->TMPL->fetch_param('limit');
+			$items = array_slice($items, 0, $limit);
 		}
 		
 		if (strlen($tagdata)) {
@@ -107,6 +110,11 @@ class Wb_explode {
 	{
 		$new_array = array();
 		
+		// Make sure the $items parameter is an array, if not then make it so
+		if ( ! is_array($items)) {
+			$items = array($items);
+		}
+		
 		foreach ($items as $key => $value) {
 			$new_array[] = array(
 				'explode_value' => $value
@@ -119,9 +127,9 @@ class Wb_explode {
 	public function usage()
 	{
 		ob_start(); 
-		?>	
+		?>
 		Examples
-		========
+		--------
 		
 		{exp:wb_explode string="1|2|3|4|5|7|9|13" value="odd"}
 		
