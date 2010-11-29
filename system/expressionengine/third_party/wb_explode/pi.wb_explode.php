@@ -24,11 +24,11 @@ class Wb_explode {
 	{
 		$this->EE =& get_instance();
 		
+		$tagdata = $this->EE->TMPL->tagdata;
+		
 		if ($this->EE->TMPL->fetch_param('string'))
 		{
 			$string = $this->EE->TMPL->fetch_param('string');
-		} else {
-			$string = $this->EE->TMPL->tagdata;
 		}
 		
 		// Looking for first, last, odd or even
@@ -58,7 +58,11 @@ class Wb_explode {
 				break;
 		}
 		
-		$this->return_data = implode('|', $items);
+		if (strlen($tagdata)) {
+				$this->return_data = $this->EE->TMPL->parse_variables($tagdata, $this->_build_variable_array($items));
+		} else {
+			$this->return_data = implode('|', $items);
+		}
 	}
 	
 	/**
@@ -86,13 +90,34 @@ class Wb_explode {
 		
 		return $new_array;
 	}
+	
+	/**
+	 * Builds an array of variables to pass to parse_variables
+	 *
+	 * http://expressionengine.com/user_guide/development/usage/template.html#parsing_variables
+	 *
+	 * @param Array $items The array of items to build the array for
+	 * @return Array The array of items for parse_variables
+	 */
+	private function _build_variable_array($items)
+	{
+		$new_array = array();
 		
+		foreach ($items as $key => $value) {
+			$new_array[] = array(
+				'explode_value' => $value
+			);
+		}
+		
+		return $new_array;
+	}
+	
 	public function usage()
 	{
 		ob_start(); 
 		?>	
 		Examples
-		--------
+		========
 		
 		{exp:wb_explode string="1|2|3|4|5|7|9|13" value="odd"}
 		

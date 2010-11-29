@@ -14,6 +14,8 @@ Install
 Examples
 --------
 
+### Single Tags
+
 	{exp:wb_explode string="1|2|3|4|5|7|9|13" value="odd"}
 
 would return "1|3|5|9"
@@ -26,9 +28,23 @@ would return "2|4|7|13"
 
 would return "2|4|7|13"
 
+### Tag Pairs
+
+	{exp:wb_explode string="1|2|3|4|5|7|9|13" value="odd"}
+		{explode_value}<br />
+	{/exp:wb_explode}
+	
+would return
+
+	1<br />
+	3<br />
+	5<br />
+	9<br />
 
 Change Log
 ----------
 
-- 1.0.0
+- 1.1
+	- Added the ability to use a tag pair and loop over the values
+- 1.0
 	- Initial Version of WB Explode  
