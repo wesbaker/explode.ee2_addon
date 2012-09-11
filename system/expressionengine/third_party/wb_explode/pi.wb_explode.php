@@ -22,7 +22,6 @@ class Wb_explode {
 	 */
 	public function Wb_explode()
 	{
-		$d = '|';
 
 		$this->EE =& get_instance();
 		
@@ -31,14 +30,14 @@ class Wb_explode {
 		
 		if ($this->EE->TMPL->fetch_param('delemiter'))
 		{
-			$d = $this->EE->TMPL->fetch_param('delemiter');
+			$delimiter = $this->EE->TMPL->fetch_param('delimiter', '|');
 		}
 		
 
 		if ($this->EE->TMPL->fetch_param('string'))
 		{
 			$string = $this->EE->TMPL->fetch_param('string');
-			$items = explode($d, $string);
+			$items = explode($delimiter, $string);
 		} else {
 			$this->return_data = $tagdata;
 			exit;
@@ -77,7 +76,7 @@ class Wb_explode {
 		if (strlen($tagdata)) {
 				$this->return_data = $this->EE->TMPL->parse_variables($tagdata, $this->_build_variable_array($items));
 		} else {
-			$this->return_data = implode($d, $items);
+			$this->return_data = implode($delimiter, $items);
 		}
 	}
 	
