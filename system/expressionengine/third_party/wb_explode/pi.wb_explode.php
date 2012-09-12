@@ -22,14 +22,18 @@ class Wb_explode {
 	 */
 	public function Wb_explode()
 	{
+
 		$this->EE =& get_instance();
 		
 		$tagdata = $this->EE->TMPL->tagdata;
 		
+		$delimiter = $this->EE->TMPL->fetch_param('delimiter', '|');
+		
+
 		if ($this->EE->TMPL->fetch_param('string'))
 		{
 			$string = $this->EE->TMPL->fetch_param('string');
-			$items = explode('|', $string);
+			$items = explode($delimiter, $string);
 		} else {
 			$this->return_data = $tagdata;
 			exit;
@@ -68,7 +72,7 @@ class Wb_explode {
 		if (strlen($tagdata)) {
 				$this->return_data = $this->EE->TMPL->parse_variables($tagdata, $this->_build_variable_array($items));
 		} else {
-			$this->return_data = implode('|', $items);
+			$this->return_data = implode($delimiter, $items);
 		}
 	}
 	
@@ -142,7 +146,12 @@ class Wb_explode {
 		{exp:wb_explode string="1|2|3|4|5|7|9|13" value="odd" offset="1"}
 		
 		would return "2|4|7|13"
-		
+
+		{exp:wb_explode string="1,2,3,4" delimiter=","}
+
+		would return "1,2,3,4"
+
+
 		<?php
 		$buffer = ob_get_contents();
 		ob_end_clean(); 
@@ -152,3 +161,4 @@ class Wb_explode {
 
 // End File pi.addon.php
 // File Source /system/expressionengine/third_party/wb_explode/pi.wb_explode.php
+?>
