@@ -27,11 +27,7 @@ class Wb_explode {
 		
 		$tagdata = $this->EE->TMPL->tagdata;
 		
-		
-		if ($this->EE->TMPL->fetch_param('delemiter'))
-		{
-			$delimiter = $this->EE->TMPL->fetch_param('delimiter', '|');
-		}
+		$delimiter = $this->EE->TMPL->fetch_param('delimiter', '|');
 		
 
 		if ($this->EE->TMPL->fetch_param('string'))
