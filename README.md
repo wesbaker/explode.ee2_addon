@@ -8,7 +8,7 @@ Install
 -------
 
 1. Download the repository
-2. Move system/expressionengine/third\_party/wb\_category\_select to system/expressionengine/expressionengine/third\_party
+2. Move `system/expressionengine/third_party/wb_explode` to `system/expressionengine/expressionengine/third_party`
 
 
 Usage
